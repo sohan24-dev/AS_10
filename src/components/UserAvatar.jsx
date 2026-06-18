@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { User, LogOut } from "lucide-react";
+import Link from "next/link";
 
 export default function UserAvatar({ user }) {
     const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -10,18 +11,18 @@ export default function UserAvatar({ user }) {
     if (!user) {
         return (
             <div className="flex items-center gap-3">
-                <a
-                    href="/signin"
+                <Link
+                    href="/auth/signin"
                     className="rounded-lg px-4 py-2 text-sm text-zinc-300 hover:bg-white/5"
                 >
                     Sign In
-                </a>
-                <a
-                    href="/signup"
+                </Link>
+                <Link
+                    href="/auth/signup"
                     className="rounded-lg bg-white px-4 py-2 text-sm font-medium text-black hover:bg-zinc-200"
                 >
                     Sign Up
-                </a>
+                </Link>
             </div>
         );
     }
