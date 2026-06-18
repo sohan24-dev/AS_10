@@ -4,17 +4,28 @@ import { Search } from "lucide-react";
 
 export default function SearchBar() {
     return (
-        <div className="relative w-full max-w-xs md:max-w-sm lg:max-w-md">
+        <form
+            role="search"
+            className="group relative w-full max-w-xs md:max-w-sm lg:max-w-md"
+        >
+            <label htmlFor="site-search" className="sr-only">
+                Search lawyers
+            </label>
+
             <Search
                 size={18}
-                className="absolute left-4 top-1/2 -translate-y-1/2 text-zinc-500"
+                aria-hidden="true"
+                className="pointer-events-none absolute left-3.5 top-1/2 -translate-y-1/2 text-zinc-500 transition-colors group-focus-within:text-violet-400"
             />
 
             <input
-                type="text"
-                placeholder="Search lawyers..."
-                className="h-10 md:h-11 w-full rounded-xl border border-white/10 bg-white/5 pl-11 pr-4 text-sm text-white placeholder:text-zinc-500 outline-none transition focus:border-violet-500 focus:bg-white/10"
+                id="site-search"
+                name="search"
+                type="search"
+                autoComplete="off"
+                placeholder="Search lawyers, practice areas..."
+                className="h-11 w-full rounded-lg border border-white/10 bg-white/[0.06] pl-11 pr-4 text-sm text-white shadow-sm outline-none transition placeholder:text-zinc-500 hover:border-white/20 hover:bg-white/[0.08] focus:border-violet-500 focus:bg-zinc-950/80 focus:ring-2 focus:ring-violet-500/20"
             />
-        </div>
+        </form>
     );
 }
