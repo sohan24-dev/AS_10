@@ -78,7 +78,7 @@ export default function UserAvatar() {
 
                     <div className="p-2">
                         <Link
-                            href="/profile"
+                            href="/dashboard"
                             className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-zinc-300 hover:bg-white/10 hover:text-white"
                         >
                             <User size={16} />
