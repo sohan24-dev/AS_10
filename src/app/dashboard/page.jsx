@@ -2,22 +2,9 @@
 
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
-import { useState } from "react";
 import { Menu, LogOut } from "lucide-react";
 
-import {
-    Bars
-} from "@gravity-ui/icons";
-
-import {
-    Button,
-    Dropdown,
-    Header,
-    Description,
-    Label,
-    Separator
-} from "@heroui/react";
-
+import { Button, Drawer, Separator } from "@heroui/react";
 import { authClient } from "@/lib/auth-client";
 
 const dashboardLinks = {
@@ -34,17 +21,22 @@ export default function DashboardPage() {
 
     const { data: session, isPending, error } = authClient.useSession();
 
+    const handleSignOut = async () => {
+        await authClient.signOut();
+        router.push("/");
+    };
+
     if (isPending) {
         return (
-            <div className="flex min-h-screen items-center justify-center">
-                <div className="h-8 w-8 animate-spin border-2 border-black border-t-transparent rounded-full" />
+            <div className="flex min-h-screen items-center justify-center bg-white text-black dark:bg-[#0B1220] dark:text-white">
+                <div className="h-8 w-8 animate-spin border-2 border-black dark:border-white border-t-transparent rounded-full" />
             </div>
         );
     }
 
     if (error || !session?.user) {
         return (
-            <div className="flex min-h-screen items-center justify-center">
+            <div className="flex min-h-screen items-center justify-center bg-white text-black dark:bg-[#0B1220] dark:text-white">
                 Session unavailable
             </div>
         );
@@ -55,23 +47,29 @@ export default function DashboardPage() {
     const links = dashboardLinks[role] || [];
 
     return (
-        <div className="min-h-screen flex">
+        <div className="min-h-screen flex bg-white text-black dark:bg-[#0B1220] dark:text-white">
 
-            {/* ✅ DESKTOP SIDEBAR ONLY */}
-            <aside className="hidden md:flex w-72 flex-col bg-[#0F1629] text-white">
-                <div className="p-6 border-b border-white/10">
+            {/* ✅ DESKTOP SIDEBAR */}
+            <aside className="hidden md:flex w-72 flex-col bg-gray-100 text-black dark:bg-[#0F1629] dark:text-white border-r border-gray-200 dark:border-white/10">
+
+                {/* USER INFO */}
+                <div className="p-6 border-b border-gray-200 dark:border-white/10">
                     <p className="font-semibold">{user.name}</p>
-                    <p className="text-xs text-white/50">{user.email}</p>
+                    <p className="text-xs text-gray-500 dark:text-white/50">
+                        {user.email}
+                    </p>
                 </div>
 
+                {/* LINKS */}
                 <nav className="flex-1 p-3">
                     {links.map((item) => (
                         <Link
                             key={item.path}
                             href={item.path}
-                            className={`block mb-1 rounded-lg px-3 py-2 text-sm ${pathname === item.path
-                                ? "bg-white/10 text-white"
-                                : "text-white/60 hover:text-white"
+                            className={`block mb-1 rounded-lg px-3 py-2 text-sm transition
+                ${pathname === item.path
+                                    ? "bg-gray-300 text-black dark:bg-white/10 dark:text-white"
+                                    : "text-gray-600 hover:text-black hover:bg-gray-200 dark:text-white/60 dark:hover:text-white dark:hover:bg-white/5"
                                 }`}
                         >
                             {item.label}
@@ -79,13 +77,11 @@ export default function DashboardPage() {
                     ))}
                 </nav>
 
+                {/* SIGN OUT */}
                 <div className="p-4">
                     <button
-                        onClick={async () => {
-                            await authClient.signOut();
-                            router.push("/");
-                        }}
-                        className="flex w-full items-center gap-2 text-sm text-white/60 hover:text-white"
+                        onClick={handleSignOut}
+                        className="flex w-full items-center gap-2 text-sm text-red-500 px-3 py-2 rounded-lg hover:bg-red-100 dark:hover:bg-red-500/10"
                     >
                         <LogOut size={16} />
                         Sign out
@@ -93,62 +89,79 @@ export default function DashboardPage() {
                 </div>
             </aside>
 
-            {/* ✅ MOBILE + DESKTOP MAIN AREA */}
+            {/* ✅ MAIN AREA */}
             <div className="flex-1 flex flex-col">
 
-                {/* ✅ MOBILE TOP NAVBAR (ALWAYS VISIBLE ON SMALL SCREEN) */}
-                <div className="md:hidden flex items-center justify-between bg-[#0F1629] text-white px-4 h-14">
+                {/* ✅ MOBILE TOP BAR */}
+                <div className="md:hidden flex items-center justify-between px-4 h-14 bg-gray-100 text-black dark:bg-[#0F1629] dark:text-white border-b border-gray-200 dark:border-white/10">
+
                     <p className="font-semibold">Dashboard</p>
 
-                    <Dropdown>
-                        <Button
-                            isIconOnly
-                            className="lg:hidden"
-                            variant="flat"
-                            aria-label="Open dashboard menu"
-                        >
+                    {/* MOBILE MENU */}
+                    <Drawer>
+                        <Button isIconOnly variant="flat">
                             <Menu size={20} />
                         </Button>
 
-                        <Dropdown.Popover>
-                            <Dropdown.Menu
-                                aria-label="Dashboard navigation"
-                                onAction={(key) => {
-                                    if (key === "logout") {
-                                        handleSignOut();
-                                        return;
-                                    }
+                        <Drawer.Backdrop>
+                            <Drawer.Content placement="left">
+                                <Drawer.Dialog>
 
-                                    router.push(String(key));
-                                }}
-                            >
+                                    <Drawer.CloseTrigger />
 
-                                <Separator />
+                                    {/* USER INFO */}
+                                    <Drawer.Header>
+                                        <p className="font-semibold">{user.name}</p>
+                                        <p className="text-xs text-gray-500 dark:text-white/50">
+                                            {user.email}
+                                        </p>
+                                    </Drawer.Header>
 
-                                <Dropdown.Section className="mt-6">
-                                    {links.map((item) => (
-                                        <Dropdown.Item key={item.path} id={item.path}>
-                                            <Label>{item.label}</Label>
-                                        </Dropdown.Item>
-                                    ))}
-                                </Dropdown.Section>
+                                    <Drawer.Body>
+                                        <Separator />
 
-                                <Separator />
+                                        {/* LINKS */}
+                                        <div className="flex flex-col gap-1 mt-3">
+                                            {links.map((item) => (
+                                                <button
+                                                    key={item.path}
+                                                    onClick={() => router.push(item.path)}
+                                                    className={`text-left px-3 py-2 rounded-lg text-sm transition
+                            ${pathname === item.path
+                                                            ? "bg-gray-300 text-black dark:bg-white/10 dark:text-white"
+                                                            : "text-gray-600 hover:bg-gray-200 dark:text-white/60 dark:hover:bg-white/5"
+                                                        }`}
+                                                >
+                                                    {item.label}
+                                                </button>
+                                            ))}
+                                        </div>
 
-                                <Dropdown.Item id="logout" variant="danger">
-                                    <Label>Sign out</Label>
-                                </Dropdown.Item>
-                            </Dropdown.Menu>
-                        </Dropdown.Popover>
-                    </Dropdown>
+                                        <Separator className="my-3" />
+
+                                        {/* SIGN OUT */}
+                                        <button
+                                            onClick={handleSignOut}
+                                            className="flex items-center gap-2 text-sm text-red-500 px-3 py-2"
+                                        >
+                                            <LogOut size={16} />
+                                            Sign out
+                                        </button>
+                                    </Drawer.Body>
+
+                                </Drawer.Dialog>
+                            </Drawer.Content>
+                        </Drawer.Backdrop>
+                    </Drawer>
                 </div>
 
-                {/* MAIN CONTENT */}
-                <main className="p-4 md:p-8">
+                {/* ✅ CONTENT */}
+                <main className="p-4 md:p-8 bg-white text-black dark:bg-[#0B1220] dark:text-white">
                     <h1 className="text-xl font-bold">
                         Welcome, {user.name}
                     </h1>
                 </main>
+
             </div>
         </div>
     );

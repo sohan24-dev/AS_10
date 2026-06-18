@@ -1,22 +1,27 @@
 "use client";
 
-import { useState } from "react";
-import { LogOut, User } from "lucide-react";
 import Link from "next/link";
-import { getUserSession } from "@/lib/getUserSession";
 import Image from "next/image";
+import { LogOut, User } from "lucide-react";
+import { Dropdown, Avatar, Label } from "@heroui/react";
+import { ArrowRightFromSquare, Gear, Persons } from "@gravity-ui/icons";
+
+import { getUserSession } from "@/lib/getUserSession";
 import { authClient } from "@/lib/auth-client";
 
 export default function UserAvatar() {
-    const { session } = getUserSession();
+    const {
+        data: session,
+        isPending, //loading state
+        error, //error object
+        refetch //refetch the session
+    } = authClient.useSession()
     const user = session?.user;
-    // console.log(session?.user);
-    // console.log(session);
-    const [dropdownOpen, setDropdownOpen] = useState(false);
+    // console.log(user);
+
     const handleSignOut = async () => {
         await authClient.signOut();
     };
-
 
     const initials =
         user?.name
@@ -26,8 +31,7 @@ export default function UserAvatar() {
             .slice(0, 2)
             .toUpperCase() || "U";
 
-
-
+    // ❌ Not logged in UI
     if (!user) {
         return (
             <div className="flex items-center gap-2">
@@ -48,53 +52,75 @@ export default function UserAvatar() {
         );
     }
 
+    // ✅ Logged in UI (HeroUI Dropdown)
     return (
-        <div className="relative">
-            <button
-                onClick={() => setDropdownOpen((prev) => !prev)}
-                className="flex h-10 w-10 items-center justify-center overflow-hidden rounded-full bg-white/10 text-white"
-            >
-                {user?.avatar ? (
-                    <Image
-                        src={user?.avatar}
-                        alt={user?.name}
-                        className="h-full w-full object-cover"
-                    />
-                ) : (
-                    <span>{initials}</span>
-                )}
-            </button>
+        <Dropdown>
+            {/* Trigger */}
+            <Dropdown.Trigger className="rounded-full">
+                <Avatar className="h-10 w-10 cursor-pointer overflow-hidden">
+                    {user?.avatar ? (
+                        <Avatar.Image
+                            alt={user?.name}
+                            src={user.avatar}
+                        />
+                    ) : (
+                        <Avatar.Fallback>{initials}</Avatar.Fallback>
+                    )}
+                </Avatar>
+            </Dropdown.Trigger>
 
-            {dropdownOpen && (
-                <div className="absolute right-0 mt-3 w-64 rounded-xl border border-white/10 bg-zinc-950 shadow-xl">
-                    <div className="border-b border-white/10 px-4 py-3">
-                        <p className="text-sm font-semibold text-white truncate">
-                            {user?.name}
-                        </p>
-                        <p className="text-xs text-zinc-400 truncate">
-                            {user?.email}
-                        </p>
-                    </div>
-
-                    <div className="p-2">
-                        <Link
-                            href="/dashboard"
-                            className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-zinc-300 hover:bg-white/10 hover:text-white"
-                        >
-                            <User size={16} />
-                            Dashboard
-                        </Link>
-
-                        <button
-                            onClick={handleSignOut}
-                            className="mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-red-400 hover:bg-red-500/10"
-                        >
-                            <LogOut size={16} />
-                            Sign Out
-                        </button>
-                    </div>
+            {/* Dropdown Content */}
+            <Dropdown.Popover placement="bottom right">
+                {/* User Info Header */}
+                <div className="px-3 pt-3 pb-2 border-b border-white/10">
+                    <p className="text-sm font-semibold text-white truncate">
+                        {user?.name}
+                    </p>
+                    <p className="text-xs text-zinc-400 truncate">
+                        {user?.email}
+                    </p>
                 </div>
-            )}
-        </div>
+
+                {/* Menu */}
+                <Dropdown.Menu>
+                    <Dropdown.Item id="dashboard" textValue="Dashboard">
+                        <Link href="/dashboard" className="flex w-full items-center gap-2">
+                            <User size={16} />
+                            <Label>Dashboard</Label>
+                        </Link>
+                    </Dropdown.Item>
+
+                    <Dropdown.Item id="profile" textValue="Profile">
+                        <Label>Profile</Label>
+                    </Dropdown.Item>
+
+                    <Dropdown.Item id="settings" textValue="Settings">
+                        <div className="flex w-full items-center justify-between gap-2">
+                            <Label>Settings</Label>
+                            <Gear className="size-3.5 text-muted" />
+                        </div>
+                    </Dropdown.Item>
+
+                    <Dropdown.Item id="team" textValue="Create Team">
+                        <div className="flex w-full items-center justify-between gap-2">
+                            <Label>Create Team</Label>
+                            <Persons className="size-3.5 text-muted" />
+                        </div>
+                    </Dropdown.Item>
+
+                    <Dropdown.Item
+                        id="logout"
+                        textValue="Logout"
+                        variant="danger"
+                        onClick={handleSignOut}
+                    >
+                        <div className="flex w-full items-center justify-between gap-2 text-red-400">
+                            <Label>Log Out</Label>
+                            <ArrowRightFromSquare className="size-3.5 text-red-400" />
+                        </div>
+                    </Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown.Popover>
+        </Dropdown>
     );
 }
