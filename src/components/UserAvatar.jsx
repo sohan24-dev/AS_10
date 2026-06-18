@@ -5,6 +5,7 @@ import { LogOut, User } from "lucide-react";
 import Link from "next/link";
 import { getUserSession } from "@/lib/getUserSession";
 import Image from "next/image";
+import { authClient } from "@/lib/auth-client";
 
 export default function UserAvatar() {
     const { session } = getUserSession();
@@ -12,6 +13,9 @@ export default function UserAvatar() {
     // console.log(session?.user);
     // console.log(session);
     const [dropdownOpen, setDropdownOpen] = useState(false);
+    const handleSignOut = async () => {
+        await authClient.signOut();
+    };
 
 
     const initials =
@@ -78,10 +82,11 @@ export default function UserAvatar() {
                             className="flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-zinc-300 hover:bg-white/10 hover:text-white"
                         >
                             <User size={16} />
-                            Profile
+                            Dashboard
                         </Link>
 
                         <button
+                            onClick={handleSignOut}
                             className="mt-1 flex w-full items-center gap-2 rounded-lg px-3 py-2 text-sm text-red-400 hover:bg-red-500/10"
                         >
                             <LogOut size={16} />

@@ -5,6 +5,7 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import {
     ArrowRight,
+    Briefcase,
     Check,
     Eye,
     EyeOff,
@@ -28,14 +29,12 @@ export default function SignUpPage() {
     const [googleLoading, setGoogleLoading] = useState(false);
     const [password, setPassword] = useState("");
     const [confirmPassword, setConfirmPassword] = useState("");
+    const [role, setRole] = useState("user");
 
     const completedRules = useMemo(
         () => passwordRules.filter((rule) => rule.test(password)).length,
         [password]
     );
-
-    const passwordStrength =
-        completedRules === 3 ? "Strong" : completedRules === 2 ? "Good" : "Weak";
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -66,6 +65,7 @@ export default function SignUpPage() {
                 name,
                 email,
                 password: formPassword,
+                role,
                 callbackURL: "/dashboard",
             });
 
@@ -169,14 +169,7 @@ export default function SignUpPage() {
                             disabled={googleLoading || loading}
                             className="flex h-12 w-full items-center justify-center gap-3 rounded-xl border border-zinc-300 bg-white px-4 text-sm font-semibold text-zinc-900 transition hover:border-zinc-400 hover:bg-zinc-50 disabled:cursor-not-allowed disabled:opacity-60"
                         >
-                            <svg width="20" height="20" viewBox="0 0 48 48" aria-hidden="true">
-                                <path
-                                    fill="#FFC107"
-                                    d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.3 36 24 36c-6.6 0-12-5.4-12-12S17.4 12 24 12c3 0 5.7 1.1 7.8 2.9l5.7-5.7C34.1 6.1 29.3 4 24 4C12.9 4 4 12.9 4 24s8.9 20 20 20s20-8.9 20-20c0-1.3-.1-2.3-.4-3.5z"
-                                />
-                            </svg>
-
-                            {googleLoading ? "Redirecting..." : "Continue with Google"}
+                            Continue with Google
                         </button>
 
                         <div className="my-6 flex items-center gap-4">
@@ -206,6 +199,45 @@ export default function SignUpPage() {
                                 autoComplete="email"
                             />
 
+                            <div>
+                                <span className="mb-2 block text-sm font-medium text-zinc-800">
+                                    Role
+                                </span>
+
+                                <div className="grid grid-cols-3 gap-2">
+                                    {[
+                                        { value: "Client", label: "Client", icon: User },
+                                        { value: "Lawyer", label: "Lawyer", icon: Briefcase },
+                                    ].map(({ value, label, icon: Icon }) => (
+                                        <label
+                                            key={value}
+                                            className={`flex cursor-pointer flex-col items-center gap-1.5 rounded-xl border px-3 py-2.5 text-xs font-medium transition ${role === value
+                                                ? "border-[#d39a2d] bg-[#fff9ec] text-[#7a4d07]"
+                                                : "border-zinc-200 bg-white text-zinc-500 hover:border-zinc-300"
+                                                }`}
+                                        >
+                                            <input
+                                                type="radio"
+                                                name="role"
+                                                value={value}
+                                                checked={role === value}
+                                                onChange={() => setRole(value)}
+                                                className="sr-only"
+                                            />
+
+                                            <Icon
+                                                size={18}
+                                                className={
+                                                    role === value ? "text-[#c07d10]" : "text-zinc-400"
+                                                }
+                                            />
+
+                                            {label}
+                                        </label>
+                                    ))}
+                                </div>
+                            </div>
+
                             <PasswordField
                                 label="Password"
                                 name="password"
@@ -214,35 +246,6 @@ export default function SignUpPage() {
                                 show={showPassword}
                                 onToggle={() => setShowPassword((value) => !value)}
                             />
-
-                            {/* <div>
-                                <div className="mb-2 flex items-center justify-between gap-3">
-                                    <span className="text-sm font-medium text-zinc-800">
-                                        Password strength
-                                    </span>
-                                    <span className="text-xs font-semibold text-zinc-500">
-                                        {passwordStrength}
-                                    </span>
-                                </div>
-
-                                <div className="grid grid-cols-3 gap-2">
-                                    {passwordRules.map((rule) => {
-                                        const complete = rule.test(password);
-
-                                        return (
-                                            <div
-                                                key={rule.label}
-                                                className={`rounded-lg border px-2.5 py-2 text-xs font-medium transition ${complete
-                                                        ? "border-[#d39a2d] bg-[#fff4d8] text-[#7a4d07]"
-                                                        : "border-zinc-200 bg-zinc-50 text-zinc-500"
-                                                    }`}
-                                            >
-                                                {rule.label}
-                                            </div>
-                                        );
-                                    })}
-                                </div>
-                            </div> */}
 
                             <PasswordField
                                 label="Confirm password"
@@ -311,14 +314,7 @@ function Field({ icon: Icon, label, name, type, placeholder, autoComplete }) {
     );
 }
 
-function PasswordField({
-    label,
-    name,
-    value,
-    onChange,
-    show,
-    onToggle,
-}) {
+function PasswordField({ label, name, value, onChange, show, onToggle }) {
     return (
         <label className="block">
             <span className="mb-2 block text-sm font-medium text-zinc-800">
