@@ -37,14 +37,26 @@ export default function UserAvatar() {
             <div className="flex items-center gap-2">
                 <Link
                     href="/auth/signin"
-                    className="rounded-lg px-3 py-2 text-sm font-medium text-zinc-300 hover:bg-white/10 hover:text-white"
+                    className="
+            rounded-lg px-3 py-2 text-sm font-medium
+            text-zinc-700 dark:text-zinc-300
+            hover:bg-zinc-100 dark:hover:bg-white/10
+            hover:text-zinc-900 dark:hover:text-white
+            transition
+        "
                 >
                     Sign In
                 </Link>
 
                 <Link
                     href="/auth/signup"
-                    className="rounded-lg bg-white px-3 py-2 text-sm font-semibold text-zinc-950 hover:bg-zinc-200"
+                    className="
+            rounded-lg px-3 py-2 text-sm font-semibold
+            bg-zinc-900 text-white
+            dark:bg-white dark:text-zinc-950
+            hover:bg-zinc-700 dark:hover:bg-zinc-200
+            transition
+        "
                 >
                     Sign Up
                 </Link>
@@ -90,9 +102,7 @@ export default function UserAvatar() {
                         </Link>
                     </Dropdown.Item>
 
-                    <Dropdown.Item id="profile" textValue="Profile">
-                        <Label>Profile</Label>
-                    </Dropdown.Item>
+
 
                     <Dropdown.Item id="settings" textValue="Settings">
                         <div className="flex w-full items-center justify-between gap-2">

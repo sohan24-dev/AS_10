@@ -11,9 +11,7 @@ import ThemeSwitch from "./ThemeSwitch";
 
 const NAV_LINKS = [
     { name: "Home", href: "/" },
-    { name: "Explore", href: "/explore" },
-    { name: "Pricing", href: "/pricing" },
-    { name: "About", href: "/about" },
+    { name: "Browse Lawyers", href: "/browselawyers" },
 ];
 
 export default function Navbar() {
@@ -45,7 +43,7 @@ export default function Navbar() {
                         </div>
 
                         <span className="text-lg font-semibold tracking-tight text-zinc-900 dark:text-white">
-                            Lumiq
+                            LegalEase
                         </span>
                     </Link>
                 </div>

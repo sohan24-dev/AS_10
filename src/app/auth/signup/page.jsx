@@ -15,6 +15,7 @@ import {
     User,
 } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 const passwordRules = [
     { label: "8+ characters", test: (value) => value.length >= 8 },
@@ -23,6 +24,7 @@ const passwordRules = [
 ];
 
 export default function SignUpPage() {
+    const router = useRouter()
     const [showPassword, setShowPassword] = useState(false);
     const [showConfirmPassword, setShowConfirmPassword] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -66,7 +68,7 @@ export default function SignUpPage() {
                 email,
                 password: formPassword,
                 role,
-                callbackURL: "/dashboard",
+                callbackURL: "/",
             });
 
             if (error) {
@@ -75,7 +77,8 @@ export default function SignUpPage() {
             }
 
             toast.success("Account created successfully");
-            console.log("User:", data);
+            router.push('signin')
+            // console.log("User:", data);
         } catch (err) {
             toast.error(err?.message || "Something went wrong");
         } finally {
@@ -85,23 +88,15 @@ export default function SignUpPage() {
 
     const handleGoogleLogin = async () => {
         try {
-            setGoogleLoading(true);
-
-            toast.loading("Redirecting to Google...", {
-                id: "google-login",
-            });
-
-            await authClient.signIn.social({
+            const result = await authClient.signIn.social({
                 provider: "google",
                 callbackURL: "/",
             });
 
-            toast.dismiss("google-login");
+            console.log(result);
         } catch (error) {
-            toast.dismiss("google-login");
+            console.error(error);
             toast.error(error?.message || "Google login failed");
-        } finally {
-            setGoogleLoading(false);
         }
     };
 

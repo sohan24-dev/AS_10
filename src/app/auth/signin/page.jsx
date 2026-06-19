@@ -54,24 +54,15 @@ export default function SignInPage() {
 
     const handleGoogleLogin = async () => {
         try {
-            setGoogleLoading(true);
-
-            toast.loading("Redirecting to Google...", {
-                id: "google-login",
-            });
 
             await authClient.signIn.social({
                 provider: "google",
-                callbackURL: "/dashboard",
+                callbackURL: "/",
             });
-
-            toast.dismiss("google-login");
         } catch (error) {
-            console.error(error);
-            toast.dismiss("google-login");
-            toast.error(error?.message || "Google login failed");
-        } finally {
-            setGoogleLoading(false);
+            toast.error(
+                error?.message || "Google login failed"
+            );
         }
     };
 
