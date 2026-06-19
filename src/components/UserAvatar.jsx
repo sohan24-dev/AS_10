@@ -1,12 +1,11 @@
 "use client";
 
 import Link from "next/link";
-import Image from "next/image";
 import { LogOut, User } from "lucide-react";
 import { Dropdown, Avatar, Label } from "@heroui/react";
 import { ArrowRightFromSquare, Gear, Persons } from "@gravity-ui/icons";
 
-import { getUserSession } from "@/lib/getUserSession";
+
 import { authClient } from "@/lib/auth-client";
 
 export default function UserAvatar() {
@@ -18,7 +17,14 @@ export default function UserAvatar() {
     } = authClient.useSession()
     const user = session?.user;
     // console.log(user);
+    const dashboardRoutes = {
+        admin: "/dashboard/admin",
+        client: "/dashboard/client",
+        lawyer: "/dashboard/lawyer",
+    };
 
+    const dashboardPath = dashboardRoutes[user?.role] || "/dashboard";
+    // console.log(dashboardPath);
     const handleSignOut = async () => {
         await authClient.signOut();
     };
@@ -96,7 +102,7 @@ export default function UserAvatar() {
                 {/* Menu */}
                 <Dropdown.Menu>
                     <Dropdown.Item id="dashboard" textValue="Dashboard">
-                        <Link href="/dashboard" className="flex w-full items-center gap-2">
+                        <Link href={dashboardPath} className="flex w-full items-center gap-2">
                             <User size={16} />
                             <Label>Dashboard</Label>
                         </Link>

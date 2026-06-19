@@ -1,8 +1,9 @@
-"use client";
+"use client"
 
-import { authClient } from "@/lib/auth-client";
+import { authClient } from '@/lib/auth-client';
+import React from 'react';
 
-export default function DashboardHome() {
+const ClientPage = () => {
     const { data: session } = authClient.useSession();
     const user = session?.user;
 
@@ -17,4 +18,6 @@ export default function DashboardHome() {
             </p>
         </div>
     );
-}
+};
+
+export default ClientPage;

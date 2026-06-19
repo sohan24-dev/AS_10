@@ -218,8 +218,8 @@ export default function SignUpPage() {
 
                                 <div className="grid grid-cols-3 gap-2">
                                     {[
-                                        { value: "Client", label: "Client", icon: User },
-                                        { value: "Lawyer", label: "Lawyer", icon: Briefcase },
+                                        { value: "client", label: "Client", icon: User },
+                                        { value: "lawyer", label: "Lawyer", icon: Briefcase },
                                     ].map(({ value, label, icon: Icon }) => (
                                         <label
                                             key={value}

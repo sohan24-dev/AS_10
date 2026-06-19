@@ -9,12 +9,12 @@ import { Menu } from "lucide-react";
 import { authClient } from "@/lib/auth-client";
 
 export const dashboardLinks = {
-    Client: [
+    client: [
         { label: "Hiring History", path: "/dashboard/user/hiring-history" },
         { label: "Update Profile", path: "/dashboard/user/update-profile" },
         { label: "Comments", path: "/dashboard/user/comments" },
     ],
-    Lawyer: [
+    lawyer: [
         { label: "Hiring Requests", path: "/dashboard/lawyer/hiring-history" },
         { label: "Manage Legal Profile", path: "/dashboard/lawyer/manage-legal-profile" },
     ],
