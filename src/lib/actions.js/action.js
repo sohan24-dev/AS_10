@@ -61,3 +61,25 @@ export const deleteLawyer = async (id) => {
         throw error;
     }
 };
+
+
+
+export const getLawyerById = async (id) => {
+    try {
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/alllaywer/${id}`,
+            {
+                cache: "no-store",
+            }
+        );
+
+        if (!res.ok) {
+            throw new Error("Failed to fetch lawyer");
+        }
+
+        return await res.json();
+    } catch (error) {
+        // console.error("Error fetching lawyer:", error);
+        return null;
+    }
+};

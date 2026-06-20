@@ -16,7 +16,18 @@ export default async function LawyerTable() {
         ? data.filter((lawyer) => lawyer.email === userEmail)
         : [];
 
-    return (
-        <LawyerTableClient data={filteredData} />
-    );
+    if (filteredData.length === 0) {
+        return (
+            <div className="flex min-h-[500px] flex-col items-center justify-center rounded-2xl border border-border bg-content1 p-10">
+                <div className="mb-4 text-6xl">⚖️</div>
+                <h2 className="text-2xl font-bold">No Services Yet</h2>
+                <p className="mt-2 text-center text-default-500">
+                    You haven't added any legal services.
+                    Start by creating your first service.
+                </p>
+            </div>
+        );
+    }
+
+    return <LawyerTableClient data={filteredData} />;
 }

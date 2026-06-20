@@ -72,9 +72,9 @@ export default function ServiceTable({ data = [] }) {
                                         ${item.fee}
                                     </td>
 
-                                    <td className="px-5 py-4">
-                                        <div className="flex justify-end gap-2">
-                                            <EditService services={item._id}></EditService>
+                                    <td className="px-5 py-4 flex items-center">
+                                        <div className="flex items-center justify-end gap-2">
+                                            <EditService services={item}></EditService>
 
                                             <button className="rounded-lg bg-red-500/10 px-3 py-2 text-sm text-red-500 hover:bg-red-500/20">
                                                 <DeleteLawyer service={item._id}></DeleteLawyer>
@@ -118,7 +118,7 @@ export default function ServiceTable({ data = [] }) {
                                 </span>
 
                                 <div className="flex gap-2">
-                                    <EditService services={services}></EditService>
+                                    <EditService services={item}></EditService>
 
                                     <button className="rounded-lg bg-red-500/10 px-3 py-1 text-sm text-red-500">
                                         Delete

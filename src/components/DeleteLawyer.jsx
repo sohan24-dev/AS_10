@@ -1,8 +1,8 @@
 "use client";
 
 import { deleteLawyer } from "@/lib/actions.js/action";
+import { TrashBin } from "@gravity-ui/icons";
 import { AlertDialog, Button } from "@heroui/react";
-import { Dumbbell } from "lucide-react";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
@@ -16,7 +16,7 @@ export function DeleteLawyer({ service }) {
             if (data.deletedCount > 0) {
                 toast.success("Lawyer deleted successfully");
 
-                // Optional refresh
+
                 router.refresh();
             } else {
                 toast.error("Delete failed");
@@ -30,7 +30,7 @@ export function DeleteLawyer({ service }) {
     return (
         <AlertDialog>
             <Button className="p-2 bg-red-500 hover:bg-red-600 text-white rounded-lg transition">
-                <Dumbbell size={14} />
+                <TrashBin size={14} />
             </Button>
             <AlertDialog.Backdrop>
                 <AlertDialog.Container>

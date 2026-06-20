@@ -1,8 +1,10 @@
 import { getAllLawyers } from "@/lib/api/data";
 import Image from "next/image";
+import Link from "next/link";
 
 const Lawyers = async () => {
     const lawyerdata = await getAllLawyers();
+    console.log(lawyerdata);
 
     return (
         <section className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950">
@@ -81,9 +83,9 @@ const Lawyers = async () => {
                                             </p>
                                         </div>
 
-                                        <button className="rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg">
+                                        <Link href={`/browselawyers/${lawyer._id}`} className="rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-md transition hover:from-blue-700 hover:to-indigo-700 hover:shadow-lg">
                                             View Profile →
-                                        </button>
+                                        </Link>
                                     </div>
 
                                 </div>

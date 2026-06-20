@@ -29,7 +29,7 @@ const specializations = [
 ];
 
 export default function EditService({ services }) {
-    console.log(services);
+    // console.log(services._id);
     // console.log(services._id);
     const router = useRouter();
     const [imagePreview, setImagePreview] = useState("");
@@ -67,7 +67,7 @@ export default function EditService({ services }) {
             email: session.user.email
         };
 
-        const result = await updateLawyer(services, updatedData);
+        const result = await updateLawyer(services._id, updatedData);
         if (result?.success || result) {
             toast.success("Service updated successfully!");
             router.refresh();
@@ -118,13 +118,14 @@ export default function EditService({ services }) {
                                 >
                                     <div className="grid gap-5">
                                         <TextField
-                                            defaultValue={services.name}
+                                            defaultValue={services?.name}
                                             className="w-full"
                                             name="name"
                                             variant="secondary"
                                         >
                                             <Label>Service Name</Label>
                                             <Input
+
                                                 name="name"
                                                 placeholder="Property Dispute Consultation"
                                                 required
@@ -148,6 +149,7 @@ export default function EditService({ services }) {
 
                                         <div className="grid gap-5 md:grid-cols-2">
                                             <TextField
+                                                defaultValue={services?.fee}
                                                 className="w-full"
                                                 name="fee"
                                                 variant="secondary"
@@ -175,6 +177,7 @@ export default function EditService({ services }) {
                                                 </Label>
 
                                                 <select
+                                                    defaultValue={services?.specialization}
                                                     name="specialization"
                                                     required
                                                     className="h-11 w-full rounded-lg border border-default-200 bg-background px-3 text-sm outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20"
