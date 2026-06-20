@@ -1,7 +1,8 @@
 "use client";
 
-import { Avatar, Button } from "@heroui/react";
-import { Pencil, Trash2 } from "lucide-react";
+import CommentDelete from "@/components/comments/CommentDelete";
+import UpdateComment from "@/components/comments/UpdateComment";
+import { Avatar } from "@heroui/react";
 
 export default function CommentTable({ comments = [] }) {
     return (
@@ -66,12 +67,8 @@ export default function CommentTable({ comments = [] }) {
 
                                 <td className="px-5 py-6">
                                     <div className="flex gap-3">
-                                        <Button isIconOnly className="h-9 w-9 bg-blue-600 text-white">
-                                            <Pencil className="h-4 w-4" />
-                                        </Button>
-                                        <Button isIconOnly className="h-9 w-9 bg-red-500 text-white">
-                                            <Trash2 className="h-4 w-4" />
-                                        </Button>
+                                        <UpdateComment comment={item.comment} id={item._id}></UpdateComment>
+                                        <CommentDelete id={item._id}></CommentDelete>
                                     </div>
                                 </td>
                             </tr>
@@ -117,12 +114,8 @@ export default function CommentTable({ comments = [] }) {
                         </div>
 
                         <div className="mt-3 flex gap-3">
-                            <Button isIconOnly className="h-8 w-8 bg-blue-600 text-white">
-                                <Pencil className="h-4 w-4" />
-                            </Button>
-                            <Button isIconOnly className="h-8 w-8 bg-red-500 text-white">
-                                <Trash2 className="h-4 w-4" />
-                            </Button>
+                            <UpdateComment comment={item.comment} id={item._id}></UpdateComment>
+                            <CommentDelete id={item._id}></CommentDelete>
                         </div>
                     </div>
                 ))}
