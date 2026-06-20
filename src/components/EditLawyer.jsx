@@ -11,11 +11,12 @@ import {
     TextField,
 } from "@heroui/react";
 import { imageUpload } from "@/lib/imgUpload";
-import { addData } from "@/lib/actions.js/action";
 import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { authClient } from "@/lib/auth-client";
+import { Pencil } from "@gravity-ui/icons";
+import { updateLawyer } from "@/lib/actions.js/action";
 
 const specializations = [
     "Family Law",
@@ -27,7 +28,9 @@ const specializations = [
     "Civil Litigation",
 ];
 
-export default function AddServiceModal() {
+export default function EditService({ services }) {
+    console.log(services);
+    // console.log(services._id);
     const router = useRouter();
     const [imagePreview, setImagePreview] = useState("");
     const {
@@ -52,37 +55,32 @@ export default function AddServiceModal() {
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-        try {
-            const formData = new FormData(e.target);
-            const data = Object.fromEntries(formData.entries());
 
-            const image = await imageUpload(data.image);
+        const formData = new FormData(e.target);
+        const data = Object.fromEntries(formData.entries());
+        // console.log(object);
+        const image = await imageUpload(data.image);
 
-            const product = {
-                ...data,
-                image: image.url,
-                email: session.user.email
-            };
+        const updatedData = {
+            ...data,
+            image: image.url,
+            email: session.user.email
+        };
 
-            const result = await addData(product);
-
-            toast.success("Data added successfully!");
-
-            // console.log(result);
-            e.target.reset();
+        const result = await updateLawyer(services, updatedData);
+        if (result?.success || result) {
+            toast.success("Service updated successfully!");
             router.refresh();
-
-        } catch (error) {
-            console.error(error);
-            toast.error("Something went wrong!", { id: "upload" });
+        } else {
+            toast.error("Update failed!");
         }
     };
 
     return (
         <Modal>
             <Button color="primary" className="gap-2">
-                <Plus size={18} />
-                Add Service
+                <Pencil size={18} />
+                Edit
             </Button>
 
             <Modal.Backdrop>
@@ -97,11 +95,11 @@ export default function AddServiceModal() {
 
                             <div>
                                 <Modal.Heading>
-                                    Add Legal Service
+                                    Update Legal Service
                                 </Modal.Heading>
 
                                 <p className="mt-1 text-sm text-muted">
-                                    Add the service details clients will see
+                                    Update the service details clients will see
                                     before booking.
                                 </p>
                             </div>
@@ -120,6 +118,7 @@ export default function AddServiceModal() {
                                 >
                                     <div className="grid gap-5">
                                         <TextField
+                                            defaultValue={services.name}
                                             className="w-full"
                                             name="name"
                                             variant="secondary"
@@ -138,6 +137,7 @@ export default function AddServiceModal() {
                                             </Label>
 
                                             <textarea
+                                                defaultValue={services.bio}
                                                 name="bio"
                                                 required
                                                 placeholder="Describe what clients get from this service..."
@@ -265,7 +265,7 @@ export default function AddServiceModal() {
                                         className="w-full gap-2 sm:w-auto"
                                     >
                                         <Plus size={16} />
-                                        Save Service
+                                        Update Service
                                     </Button>
                                 </Modal.Footer>
                             </form>

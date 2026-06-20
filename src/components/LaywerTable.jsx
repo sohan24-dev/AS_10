@@ -1,11 +1,22 @@
 import { getAllLawyers } from "@/lib/api/data";
 import LawyerTableClient from "./LawyerTableClient";
-import { authClient } from "@/lib/auth-client";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 
 export default async function LawyerTable() {
     const data = await getAllLawyers();
-    const { data: session, error } = await authClient.getSession()
-    console.log(session);
 
-    return <LawyerTableClient data={data} />;
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
+
+    const userEmail = session?.user?.email;
+
+    const filteredData = userEmail
+        ? data.filter((lawyer) => lawyer.email === userEmail)
+        : [];
+
+    return (
+        <LawyerTableClient data={filteredData} />
+    );
 }
