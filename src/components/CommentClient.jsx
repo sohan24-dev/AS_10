@@ -17,7 +17,7 @@ export default function CommentClient({ id, lawyer }) {
 
     const handlecomment = async (e) => {
         e.preventDefault();
-        console.log(lawyer.name);
+        // console.log(lawyer);
 
         const formData = new FormData(e.target);
         const data = Object.fromEntries(formData.entries());

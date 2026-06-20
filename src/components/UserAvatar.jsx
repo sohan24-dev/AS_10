@@ -19,7 +19,7 @@ export default function UserAvatar() {
     // console.log(user);
     const dashboardRoutes = {
         admin: "/dashboard/admin",
-        client: "/dashboard/client",
+        client: "/dashboard/user",
         lawyer: "/dashboard/lawyer",
     };
 

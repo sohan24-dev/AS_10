@@ -2,6 +2,7 @@ import { getAllComment } from "@/lib/api/data";
 
 const AllComment = async ({ id }) => {
     const allComment = await getAllComment();
+    // console.log(allComment);
 
     const filteredComments = allComment.filter(
         (comment) => comment.lawyerId === id
