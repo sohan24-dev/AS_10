@@ -10,50 +10,63 @@ import { authClient } from "@/lib/auth-client";
 const EditUserRole = ({ user }) => {
     const {
         data: session,
-        isPending, //loading state
-        error, //error object
-        refetch //refetch the session
-    } = authClient.useSession()
-    console.log(session.user.role);
+        refetch,
+    } = authClient.useSession();
+
     const [role, setRole] = useState(user?.role || "");
     const router = useRouter();
 
     const handleUpdateRole = async (newRole) => {
-        // Convert the key to a string if HeroUI returns a Set or object
-        const selectedRole = typeof newRole === "object" && newRole.currentKey
-            ? newRole.currentKey
-            : String(newRole);
+        const selectedRole =
+            typeof newRole === "object" && newRole.currentKey
+                ? newRole.currentKey
+                : String(newRole);
 
         if (!selectedRole) return;
 
-        // Optimistically update the local state so the UI feels fast
+        const previousRole = role;
         setRole(selectedRole);
 
         try {
             await updateUser(user._id, { role: selectedRole });
+
             toast.success("Updated role successfully");
-            router.refresh();
-            if (session.user.role !== 'admin') {
-                window.location.reload();
+
+            // Refresh session data
+            await refetch();
+
+            // If current logged-in user changed their own role
+            // from admin to another role, sign them out and redirect.
+            if (
+                session?.user?.id === user?._id &&
+                selectedRole !== "admin"
+            ) {
+                await authClient.signOut();
+
+                toast.success("Admin access removed");
+
+                router.push("/");
+                router.refresh();
+                return;
             }
 
-            // console.log("Role updated successfully to:", selectedRole);
+            router.refresh();
         } catch (error) {
-            console.error("Update failed:", error);
+            console.error(error);
             toast.error(error?.message || "Failed to update role");
-            // Revert state back to original value if the API fails
-            setRole(user?.role || "");
+
+            // Revert UI state on error
+            setRole(previousRole);
         }
     };
 
     return (
         <div className="flex items-center gap-2">
-            {/* ROLE SELECT */}
             <Select
                 className="w-[200px]"
                 placeholder="Select role"
                 selectedKey={role}
-                onSelectionChange={handleUpdateRole} // Fires immediately on change
+                onSelectionChange={handleUpdateRole}
             >
                 <Label>Role Change</Label>
 
@@ -70,7 +83,7 @@ const EditUserRole = ({ user }) => {
                         </ListBox.Item>
 
                         <ListBox.Item id="client" textValue="User">
-                            User
+                            Client
                             <ListBox.ItemIndicator />
                         </ListBox.Item>
 
