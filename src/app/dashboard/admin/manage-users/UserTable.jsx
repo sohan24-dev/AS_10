@@ -42,11 +42,11 @@ const UserTable = ({ users = [] }) => {
                                     {/* Role */}
                                     <Table.Cell>
                                         <span
-                                            className={`inline-flex items-center rounded-md border px-2.5 py-1 text-xs font-medium whitespace-nowrap ${user.role?.toLowerCase() === "admin"
+                                            className={`inline-flex items-center rounded-md border px-2.5 py-1 text-xs font-medium whitespace-nowrap ${user.role === "admin"
                                                 ? "border-danger/20 bg-danger/10 text-danger"
-                                                : user.role?.toLowerCase() === "lawyer"
+                                                : user.role === "lawyer"
                                                     ? "border-success/20 bg-success/10 text-success"
-                                                    : user.role?.toLowerCase() === "client"
+                                                    : user.role === "client"
                                                         ? "border-primary/20 bg-primary/10 text-primary"
                                                         : "border-default/20 bg-default/10 text-default-600"
                                                 }`}

@@ -16,9 +16,9 @@ import {
     MessageCircle,
 } from "lucide-react";
 
-import { CircleCheckFill } from "@gravity-ui/icons";
 import AllComment from "@/components/AllComment";
 import CommentClient from "@/components/CommentClient";
+import Hirelawyer from "@/components/hirelawyers/Hirelawyer";
 
 const fallbackBio = "This professional has not provided a summary yet.";
 
@@ -49,6 +49,7 @@ function StatCard({ value, label }) {
 export default async function LawyerDetailsPage({ params }) {
     const { id } = await params;
     const lawyer = await getLawyerById(id);
+    // console.log(lawyer);
     if (!lawyer) {
         return (
             <main className="flex min-h-[55vh] items-center justify-center bg-slate-50 dark:bg-slate-900 px-5">
@@ -94,11 +95,8 @@ export default async function LawyerDetailsPage({ params }) {
                                 priority
                             />
                         </div>
-
-                        <button className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-slate-950 px-5 py-3 text-sm font-semibold text-white transition hover:bg-slate-800">
-                            <CircleCheckFill size={18} />
-                            Hire Lawyer
-                        </button>
+                        {/* // hire lawyer  */}
+                        <Hirelawyer hirelawyer={lawyer}></Hirelawyer>
                     </aside>
 
                     {/* RIGHT */}

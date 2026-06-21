@@ -32,9 +32,11 @@ export const updateUser = async (id, updatedData) => {
         }
     );
 
+    const data = await res.json();
+
     if (!res.ok) {
-        throw new Error("Update failed");
+        throw new Error(data?.error || "Update failed");
     }
 
-    return await res.json();
+    return data;
 };
