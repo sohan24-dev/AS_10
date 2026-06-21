@@ -1,9 +1,14 @@
-import React from 'react';
+import { getAllUser } from "@/lib/api/data";
+import UserTable from "./UserTable";
 
-const ManageUser = () => {
+
+const ManageUser = async () => {
+    const users = await getAllUser();
+    // console.log(users);
     return (
         <div>
             <h1>ManageUser</h1>
+            <UserTable users={users}></UserTable>
         </div>
     );
 };
