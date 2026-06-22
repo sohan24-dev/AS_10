@@ -27,6 +27,7 @@ const Hirelawyer = ({ hirelawyer }) => {
                 clientName: session?.user?.name,
                 clientEmail: session?.user?.email,
                 lawyerEmail: hirelawyer.email,
+                pay: "Pay unable"
             };
 
             const res = await addhirelawyer(formData);
