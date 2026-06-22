@@ -1,22 +1,22 @@
 "use client";
 
 import Link from "next/link";
-import { LogOut, User } from "lucide-react";
+import { User } from "lucide-react";
 import { Dropdown, Avatar, Label } from "@heroui/react";
 import { ArrowRightFromSquare, Gear, Persons } from "@gravity-ui/icons";
-
-
 import { authClient } from "@/lib/auth-client";
 
 export default function UserAvatar() {
     const {
         data: session,
-        isPending, //loading state
-        error, //error object
-        refetch //refetch the session
-    } = authClient.useSession()
+        isPending,
+        error,
+        refetch,
+    } = authClient.useSession();
+
     const user = session?.user;
-    // console.log(user);
+    console.log(user);
+
     const dashboardRoutes = {
         admin: "/dashboard/admin",
         client: "/dashboard/user",
@@ -24,7 +24,7 @@ export default function UserAvatar() {
     };
 
     const dashboardPath = dashboardRoutes[user?.role] || "/dashboard";
-    // console.log(dashboardPath);
+
     const handleSignOut = async () => {
         await authClient.signOut();
     };
@@ -32,24 +32,31 @@ export default function UserAvatar() {
     const initials =
         user?.name
             ?.split(" ")
-            .map((p) => p[0])
+            .map((part) => part[0])
             .join("")
             .slice(0, 2)
             .toUpperCase() || "U";
 
-    // ❌ Not logged in UI
+    // Loading State
+    if (isPending) {
+        return (
+            <div className="h-10 w-10 rounded-full bg-gray-200 animate-pulse" />
+        );
+    }
+
+    // Not Logged In
     if (!user) {
         return (
             <div className="flex items-center gap-2">
                 <Link
                     href="/auth/signin"
                     className="
-            rounded-lg px-3 py-2 text-sm font-medium
-            text-zinc-700 dark:text-zinc-300
-            hover:bg-zinc-100 dark:hover:bg-white/10
-            hover:text-zinc-900 dark:hover:text-white
-            transition
-        "
+                        rounded-lg px-3 py-2 text-sm font-medium
+                        text-zinc-700 dark:text-zinc-300
+                        hover:bg-zinc-100 dark:hover:bg-white/10
+                        hover:text-zinc-900 dark:hover:text-white
+                        transition
+                    "
                 >
                     Sign In
                 </Link>
@@ -57,12 +64,12 @@ export default function UserAvatar() {
                 <Link
                     href="/auth/signup"
                     className="
-            rounded-lg px-3 py-2 text-sm font-semibold
-            bg-zinc-900 text-white
-            dark:bg-white dark:text-zinc-950
-            hover:bg-zinc-700 dark:hover:bg-zinc-200
-            transition
-        "
+                        rounded-lg px-3 py-2 text-sm font-semibold
+                        bg-zinc-900 text-white
+                        dark:bg-white dark:text-zinc-950
+                        hover:bg-zinc-700 dark:hover:bg-zinc-200
+                        transition
+                    "
                 >
                     Sign Up
                 </Link>
@@ -70,31 +77,29 @@ export default function UserAvatar() {
         );
     }
 
-    // ✅ Logged in UI (HeroUI Dropdown)
     return (
         <Dropdown>
-            {/* Trigger */}
-            <Dropdown.Trigger className="rounded-full">
-                <Avatar className="h-10 w-10 cursor-pointer overflow-hidden">
-                    {user?.avatar ? (
-                        <Avatar.Image
-                            alt={user?.name}
-                            src={user.avatar}
-                        />
-                    ) : (
-                        <Avatar.Fallback>{initials}</Avatar.Fallback>
-                    )}
-                </Avatar>
+            {/* Avatar Trigger */}
+            <Dropdown.Trigger>
+                <div className="cursor-pointer">
+                    <Avatar
+                        src={user?.image || undefined}
+                        name={user?.name || initials}
+                        className="h-10 w-10"
+                    >
+                        {!user?.avatar && initials}
+                    </Avatar>
+                </div>
             </Dropdown.Trigger>
 
             {/* Dropdown Content */}
             <Dropdown.Popover placement="bottom right">
-                {/* User Info Header */}
-                <div className="px-3 pt-3 pb-2 border-b border-white/10">
-                    <p className="text-sm font-semibold text-white truncate">
+                {/* User Info */}
+                <div className="px-3 pt-3 pb-2 border-b border-gray-200">
+                    <p className="text-sm font-semibold truncate">
                         {user?.name}
                     </p>
-                    <p className="text-xs text-zinc-400 truncate">
+                    <p className="text-xs text-gray-500 truncate">
                         {user?.email}
                     </p>
                 </div>
@@ -102,25 +107,26 @@ export default function UserAvatar() {
                 {/* Menu */}
                 <Dropdown.Menu>
                     <Dropdown.Item id="dashboard" textValue="Dashboard">
-                        <Link href={dashboardPath} className="flex w-full items-center gap-2">
+                        <Link
+                            href={dashboardPath}
+                            className="flex items-center gap-2 w-full"
+                        >
                             <User size={16} />
                             <Label>Dashboard</Label>
                         </Link>
                     </Dropdown.Item>
 
-
-
                     <Dropdown.Item id="settings" textValue="Settings">
-                        <div className="flex w-full items-center justify-between gap-2">
+                        <div className="flex items-center justify-between w-full">
                             <Label>Settings</Label>
-                            <Gear className="size-3.5 text-muted" />
+                            <Gear className="size-4" />
                         </div>
                     </Dropdown.Item>
 
                     <Dropdown.Item id="team" textValue="Create Team">
-                        <div className="flex w-full items-center justify-between gap-2">
+                        <div className="flex items-center justify-between w-full">
                             <Label>Create Team</Label>
-                            <Persons className="size-3.5 text-muted" />
+                            <Persons className="size-4" />
                         </div>
                     </Dropdown.Item>
 
@@ -130,9 +136,9 @@ export default function UserAvatar() {
                         variant="danger"
                         onClick={handleSignOut}
                     >
-                        <div className="flex w-full items-center justify-between gap-2 text-red-400">
+                        <div className="flex items-center justify-between w-full text-red-500">
                             <Label>Log Out</Label>
-                            <ArrowRightFromSquare className="size-3.5 text-red-400" />
+                            <ArrowRightFromSquare className="size-4" />
                         </div>
                     </Dropdown.Item>
                 </Dropdown.Menu>

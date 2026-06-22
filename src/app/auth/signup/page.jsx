@@ -9,6 +9,7 @@ import {
     Check,
     Eye,
     EyeOff,
+    Image,
     Lock,
     Mail,
     ShieldCheck,
@@ -42,8 +43,13 @@ export default function SignUpPage() {
         e.preventDefault();
 
         const formData = new FormData(e.currentTarget);
-        const { name, email, password: formPassword, confirmPassword } =
-            Object.fromEntries(formData.entries());
+        const {
+            name,
+            email,
+            image,
+            password: formPassword,
+            confirmPassword,
+        } = Object.fromEntries(formData.entries());
 
         if (!name || !email || !formPassword || !confirmPassword) {
             toast.error("Please complete all required fields");
@@ -68,6 +74,7 @@ export default function SignUpPage() {
                 email,
                 password: formPassword,
                 role,
+                image,
                 callbackURL: "/",
             });
 
@@ -209,6 +216,14 @@ export default function SignUpPage() {
                                 type="email"
                                 placeholder="you@example.com"
                                 autoComplete="email"
+                            />
+                            <Field
+                                icon={Image}
+                                label="Profile Image URL"
+                                name="image"
+                                type="url"
+                                placeholder="https://example.com/profile.jpg"
+                                autoComplete="url"
                             />
 
                             <div>
