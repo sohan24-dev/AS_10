@@ -1,5 +1,5 @@
 export const getAllLawyers = async (search = "") => {
-    console.log(search);
+    // console.log(search);
     const res = await fetch(
         `${process.env.NEXT_PUBLIC_SERVER_URL}/alllaywer?search=${search}`,
         {
@@ -25,6 +25,7 @@ export const getAllComment = async () => {
         // console.error(error);
     }
 };
+
 export const getAllUser = async () => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user`);

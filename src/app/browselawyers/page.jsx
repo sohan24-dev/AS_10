@@ -4,16 +4,19 @@ import Link from "next/link";
 
 const Lawyers = async ({ searchParams }) => {
     const lawyerdata = await getAllLawyers();
+    // console.log(lawyerdata);
 
     const searchText = await searchParams;
     const search = searchText?.search?.toLowerCase();
     // console.log(searchParams);
     // console.log(search);
 
-    const filteredLawyers = lawyerdata.filter((lawyer) =>
-        lawyer.name?.toLowerCase().includes(search) ||
-        lawyer.specialization?.toLowerCase().includes(search)
-    );
+    const filteredLawyers = !search
+        ? lawyerdata
+        : lawyerdata.filter((lawyer) =>
+            lawyer.name?.toLowerCase().includes(search) ||
+            lawyer.specialization?.toLowerCase().includes(search)
+        );
 
     return (
         <section className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950">
