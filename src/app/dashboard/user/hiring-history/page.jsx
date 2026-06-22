@@ -8,12 +8,12 @@ const UserHiring = async () => {
         headers: await headers()
     });
 
-    console.log(session);
+    // console.log(session);
 
     const hireHistory = (await getAllhireList()) || [];
-    console.log(hireHistory);
+    // console.log(hireHistory);
 
-    // ✅ filter by user email
+
     const userEmail = session?.user?.email;
 
     const filteredHireHistory = hireHistory.filter(
