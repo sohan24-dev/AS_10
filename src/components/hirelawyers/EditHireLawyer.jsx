@@ -11,7 +11,7 @@ const EditHireLawyer = ({ item }) => {
         try {
             await updateHireLawyerStatus(item._id, {
                 status: "accepted",
-                pay: "able"
+                pay: "paynow"
             });
 
             toast.success("Request accepted");

@@ -1,22 +1,47 @@
+import FilterLawyer from "@/components/FilterLawyer";
 import { getAllLawyers } from "@/lib/api/data";
 import Image from "next/image";
 import Link from "next/link";
 
 const Lawyers = async ({ searchParams }) => {
     const lawyerdata = await getAllLawyers();
-    // console.log(lawyerdata);
 
-    const searchText = await searchParams;
-    const search = searchText?.search?.toLowerCase();
-    // console.log(searchParams);
-    // console.log(search);
+    const params = await searchParams;
 
-    const filteredLawyers = !search
-        ? lawyerdata
-        : lawyerdata.filter((lawyer) =>
-            lawyer.name?.toLowerCase().includes(search) ||
-            lawyer.specialization?.toLowerCase().includes(search)
+    const search = params?.search?.toLowerCase() || "";
+    const specialization = params?.specialization || "";
+    const sort = params?.sort || "";
+
+    let filteredLawyers = [...lawyerdata];
+
+    // Search
+    if (search) {
+        filteredLawyers = filteredLawyers.filter(
+            (lawyer) =>
+                lawyer.name?.toLowerCase().includes(search) ||
+                lawyer.specialization?.toLowerCase().includes(search)
         );
+    }
+
+    // Filter by specialization
+    if (specialization && specialization !== "all") {
+        filteredLawyers = filteredLawyers.filter(
+            (lawyer) => lawyer.specialization === specialization
+        );
+    }
+
+    // Sort by fee
+    if (sort === "low") {
+        filteredLawyers.sort(
+            (a, b) => Number(a.fee) - Number(b.fee)
+        );
+    }
+
+    if (sort === "high") {
+        filteredLawyers.sort(
+            (a, b) => Number(b.fee) - Number(a.fee)
+        );
+    }
 
     return (
         <section className="min-h-screen bg-gradient-to-b from-slate-50 via-white to-slate-100 dark:from-slate-900 dark:via-slate-900 dark:to-slate-950">
@@ -41,7 +66,7 @@ const Lawyers = async ({ searchParams }) => {
                         {filteredLawyers.length} Experts Available
                     </div>
                 </div>
-
+                <div> <FilterLawyer></FilterLawyer></div>
                 {filteredLawyers.length ? (
                     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
                         {filteredLawyers.map((lawyer, index) => (

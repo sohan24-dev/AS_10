@@ -19,7 +19,7 @@ const HireTable = ({ hireHistory }) => {
     // Pay badge styles with dark mode support
     const getPayStyle = (pay) => {
         switch (pay?.toLowerCase()) {
-            case "able":
+            case "paynow":
                 return "bg-green-50 text-green-700 border-green-200 dark:bg-green-900/30 dark:text-green-300 dark:border-green-700 px-3 py-1 rounded-full text-xs font-medium border cursor-pointer";
 
             default:
