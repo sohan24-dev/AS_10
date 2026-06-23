@@ -28,7 +28,12 @@ export const getAllComment = async () => {
 
 export const getAllUser = async () => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/user`);
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_SERVER_URL}/user`,
+            {
+                cache: "no-store",
+            }
+        );
         // console.log(res);
 
         if (!res.ok) {
