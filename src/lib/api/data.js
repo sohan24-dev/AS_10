@@ -11,7 +11,10 @@ export const getAllLawyers = async (search = "") => {
 };
 export const getAllComment = async () => {
     try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/comment`);
+        const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/comment`,
+            {
+                cache: "no-store",
+            });
         // console.log(res);
 
         if (!res.ok) {

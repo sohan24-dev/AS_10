@@ -5,8 +5,10 @@ import { User } from "lucide-react";
 import { Dropdown, Avatar, Label } from "@heroui/react";
 import { ArrowRightFromSquare, Gear, Persons } from "@gravity-ui/icons";
 import { authClient } from "@/lib/auth-client";
+import { useRouter } from "next/navigation";
 
 export default function UserAvatar() {
+    const router = useRouter();
     const {
         data: session,
         isPending,
@@ -27,6 +29,7 @@ export default function UserAvatar() {
 
     const handleSignOut = async () => {
         await authClient.signOut();
+        router.push('/')
     };
 
     const initials =

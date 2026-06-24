@@ -1,5 +1,8 @@
 "use server"
 
+import { headers } from "next/headers";
+import { auth } from "../auth";
+
 export const addData = async (formData) => {
     // console.log(formData);
     const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/laywerdata`, {
@@ -64,22 +67,53 @@ export const deleteLawyer = async (id) => {
 
 
 
+// export const getLawyerById = async (id) => {
+//     try {
+//         const res = await fetch(
+//             `${process.env.NEXT_PUBLIC_SERVER_URL}/alllaywer/${id}`,
+//             {
+//                 cache: "no-store",
+//             }
+//         );
+
+//         if (!res.ok) {
+//             throw new Error("Failed to fetch lawyer");
+//         }
+
+//         return await res.json();
+//     } catch (error) {
+//         // console.error("Error fetching lawyer:", error);
+//         return null;
+//     }
+// };
+
+
+
+
 export const getLawyerById = async (id) => {
     try {
+        // console.log("Getting token...");
+
+        const { token } = await auth.api.getToken({
+            headers: await headers(),
+        });
+
+        // console.log("Token:", token);
+
         const res = await fetch(
             `${process.env.NEXT_PUBLIC_SERVER_URL}/alllaywer/${id}`,
             {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
                 cache: "no-store",
             }
         );
 
-        if (!res.ok) {
-            throw new Error("Failed to fetch lawyer");
-        }
+        console.log("Status:", res.status);
 
         return await res.json();
     } catch (error) {
-        // console.error("Error fetching lawyer:", error);
-        return null;
+        // console.error(error);
     }
 };

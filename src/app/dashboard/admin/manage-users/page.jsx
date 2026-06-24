@@ -4,7 +4,7 @@ import UserTable from "./UserTable";
 
 const ManageUser = async () => {
     const users = await getAllUser();
-    console.log(users, "user");
+    // console.log(users, "user");
     return (
         <div>
             <h1>ManageUser</h1>
