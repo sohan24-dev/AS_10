@@ -19,6 +19,8 @@ import {
 import AllComment from "@/components/AllComment";
 import CommentClient from "@/components/CommentClient";
 import Hirelawyer from "@/components/hirelawyers/Hirelawyer";
+import { headers } from "next/headers";
+import { auth } from "@/lib/auth";
 
 const fallbackBio = "This professional has not provided a summary yet.";
 
@@ -49,7 +51,11 @@ function StatCard({ value, label }) {
 export default async function LawyerDetailsPage({ params }) {
     const { id } = await params;
     const lawyer = await getLawyerById(id);
-    // console.log(lawyer);
+    const session = await auth.api.getSession({
+        headers: await headers(),
+    });
+    const userRole = session?.user?.role;
+    // console.log(userRole);
     if (!lawyer) {
         return (
             <main className="flex min-h-[55vh] items-center justify-center bg-slate-50 dark:bg-slate-900 px-5">
@@ -96,7 +102,9 @@ export default async function LawyerDetailsPage({ params }) {
                             />
                         </div>
                         {/* // hire lawyer  */}
-                        <Hirelawyer hirelawyer={lawyer}></Hirelawyer>
+                        {userRole !== "lawyer" && (
+                            <Hirelawyer hirelawyer={lawyer} />
+                        )}
                     </aside>
 
                     {/* RIGHT */}
