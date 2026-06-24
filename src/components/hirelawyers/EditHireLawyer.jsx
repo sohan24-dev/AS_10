@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 const EditHireLawyer = ({ item }) => {
-    console.log(item.status);
+    // console.log(item.status);
     const router = useRouter();
 
     const handleAccept = async () => {

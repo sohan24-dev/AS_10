@@ -14,12 +14,13 @@ const Hirelawyer = ({ hirelawyer }) => {
         refetch //refetch the session
     } = authClient.useSession()
     // console.log(session);
-    // console.log(hirelawyer);
+    // console.log(hirelawyer._id);
 
     const handleHireLawyer = async () => {
         try {
             const formData = {
                 status: "pending",
+                _id: hirelawyer._id,
                 specialization: hirelawyer.specialization,
                 lawyerName: hirelawyer.name,
                 fee: hirelawyer.fee,

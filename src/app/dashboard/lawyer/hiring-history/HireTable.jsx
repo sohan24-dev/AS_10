@@ -5,7 +5,7 @@ import { Table } from "@heroui/react";
 import EditHireLawyer from "@/components/hirelawyers/EditHireLawyer";
 
 const HireTable = ({ hireHistory = [] }) => {
-    console.log(hireHistory);
+    // console.log(hireHistory);
     return (
         <div className="p-4 bg-white dark:bg-gray-900 rounded-xl shadow-sm transition-colors">
             <Table>
