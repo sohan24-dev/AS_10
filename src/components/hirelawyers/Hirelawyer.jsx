@@ -20,7 +20,6 @@ const Hirelawyer = ({ hirelawyer }) => {
         try {
             const formData = {
                 status: "pending",
-                _id: hirelawyer._id,
                 specialization: hirelawyer.specialization,
                 lawyerName: hirelawyer.name,
                 fee: hirelawyer.fee,

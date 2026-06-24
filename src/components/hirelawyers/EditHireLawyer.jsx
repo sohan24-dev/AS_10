@@ -5,7 +5,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 const EditHireLawyer = ({ item }) => {
-    // console.log(item.status);
+    // console.log(item.pay);
     const router = useRouter();
 
     const handleAccept = async () => {
@@ -38,7 +38,7 @@ const EditHireLawyer = ({ item }) => {
 
     return (
         <div>
-            {item.status?.toLowerCase() === "paid" ? (
+            {item.pay?.toLowerCase() === "paid" ? (
                 <span className="px-4 py-1.5 bg-green-100 text-green-700 border border-green-300 rounded-full text-sm font-medium">
                     Paid
                 </span>

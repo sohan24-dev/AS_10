@@ -119,20 +119,6 @@ export default function UserAvatar() {
                         </Link>
                     </Dropdown.Item>
 
-                    <Dropdown.Item id="settings" textValue="Settings">
-                        <div className="flex items-center justify-between w-full">
-                            <Label>Settings</Label>
-                            <Gear className="size-4" />
-                        </div>
-                    </Dropdown.Item>
-
-                    <Dropdown.Item id="team" textValue="Create Team">
-                        <div className="flex items-center justify-between w-full">
-                            <Label>Create Team</Label>
-                            <Persons className="size-4" />
-                        </div>
-                    </Dropdown.Item>
-
                     <Dropdown.Item
                         id="logout"
                         textValue="Logout"

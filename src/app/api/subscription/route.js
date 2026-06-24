@@ -10,6 +10,7 @@ export async function POST(req) {
         const hireId = formData.get("hireId");
         const lawyerName = formData.get("lawyerName");
         const fee = Number(formData.get("fee"));
+        const pay = (formData.get("pay"));
 
         const headersList = await headers();
 
@@ -52,6 +53,7 @@ export async function POST(req) {
                 hireId,
                 lawyerName,
                 fee,
+                pay,
                 userId: user.id,
                 email: user.email,
                 status: formData.get("status"),
