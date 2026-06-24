@@ -1,7 +1,8 @@
 import { Table } from "@heroui/react";
 
 const HireTable = ({ hireHistory }) => {
-    // console.log(hireHistory);
+
+    console.log(hireHistory);
     // Status badge styles with dark mode support
     const getStatusStyle = (status) => {
         switch (status?.toLowerCase()) {

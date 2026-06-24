@@ -6,6 +6,7 @@ import Link from "next/link";
 const Lawyers = async ({ searchParams }) => {
     // 1. Fetch data from your API helper
     const rawData = await getAllLawyers();
+    // console.log(rawData);
 
     // 2. Comprehensive check for backend array wrappers
     let lawyerdata = [];
@@ -162,8 +163,8 @@ const Lawyers = async ({ searchParams }) => {
                                 <Link
                                     href={createPageURL(currentPage - 1)}
                                     className={`flex h-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold shadow-sm transition dark:border-slate-700 dark:bg-slate-900 ${currentPage <= 1
-                                            ? "pointer-events-none opacity-40"
-                                            : "hover:bg-slate-50 dark:hover:bg-slate-800"
+                                        ? "pointer-events-none opacity-40"
+                                        : "hover:bg-slate-50 dark:hover:bg-slate-800"
                                         }`}
                                 >
                                     ← Prev
@@ -175,8 +176,8 @@ const Lawyers = async ({ searchParams }) => {
                                         key={pageNumber}
                                         href={createPageURL(pageNumber)}
                                         className={`flex h-10 w-10 items-center justify-center rounded-xl text-sm font-bold shadow-sm transition ${currentPage === pageNumber
-                                                ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
-                                                : "border border-slate-200 bg-white hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800"
+                                            ? "bg-gradient-to-r from-blue-600 to-indigo-600 text-white"
+                                            : "border border-slate-200 bg-white hover:bg-slate-50 dark:border-slate-700 dark:bg-slate-900 dark:hover:bg-slate-800"
                                             }`}
                                     >
                                         {pageNumber}
@@ -187,8 +188,8 @@ const Lawyers = async ({ searchParams }) => {
                                 <Link
                                     href={createPageURL(currentPage + 1)}
                                     className={`flex h-10 items-center justify-center rounded-xl border border-slate-200 bg-white px-4 text-sm font-semibold shadow-sm transition dark:border-slate-700 dark:bg-slate-900 ${currentPage >= totalPages
-                                            ? "pointer-events-none opacity-40"
-                                            : "hover:bg-slate-50 dark:hover:bg-slate-800"
+                                        ? "pointer-events-none opacity-40"
+                                        : "hover:bg-slate-50 dark:hover:bg-slate-800"
                                         }`}
                                 >
                                     Next →

@@ -28,7 +28,20 @@ export const getAllLawyers = async (
 };
 
 
+export const getPayments = async () => {
+    const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/pay`,
+        {
+            cache: "no-store",
+        }
+    );
 
+    if (!res.ok) {
+        throw new Error("Failed to fetch payments");
+    }
+
+    return res.json();
+};
 
 
 

@@ -3,7 +3,7 @@ import EditUserRole from "@/components/manageuser.jsx/EditUserRole";
 import { Table } from "@heroui/react";
 
 const UserTable = ({ users = [] }) => {
-    console.log(users);
+    // console.log(users);
     return (
         <div className="w-full overflow-hidden rounded-xl border border-divider bg-content1 p-2 sm:p-4">
             <Table variant="secondary">

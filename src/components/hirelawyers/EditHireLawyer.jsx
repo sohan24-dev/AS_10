@@ -5,6 +5,7 @@ import toast from "react-hot-toast";
 import { useRouter } from "next/navigation";
 
 const EditHireLawyer = ({ item }) => {
+    console.log(item.status);
     const router = useRouter();
 
     const handleAccept = async () => {
@@ -36,20 +37,28 @@ const EditHireLawyer = ({ item }) => {
     };
 
     return (
-        <div className="flex gap-2">
-            <button
-                onClick={handleAccept}
-                className="px-5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm rounded-lg"
-            >
-                Accept
-            </button>
+        <div>
+            {item.status?.toLowerCase() === "paid" ? (
+                <span className="px-4 py-1.5 bg-green-100 text-green-700 border border-green-300 rounded-full text-sm font-medium">
+                    Paid
+                </span>
+            ) : (
+                <div className="flex gap-2">
+                    <button
+                        onClick={handleAccept}
+                        className="px-5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-sm rounded-lg"
+                    >
+                        Accept
+                    </button>
 
-            <button
-                onClick={handleReject}
-                className="px-5 py-1.5 bg-rose-500 hover:bg-rose-600 text-white font-medium text-sm rounded-lg"
-            >
-                Reject
-            </button>
+                    <button
+                        onClick={handleReject}
+                        className="px-5 py-1.5 bg-rose-500 hover:bg-rose-600 text-white font-medium text-sm rounded-lg"
+                    >
+                        Reject
+                    </button>
+                </div>
+            )}
         </div>
     );
 };

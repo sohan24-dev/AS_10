@@ -2,14 +2,17 @@
 
 import { deleteuser } from "@/lib/actions.js/user";
 import { AlertDialog, Button } from "@heroui/react";
+import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 
 const DeleteUser = ({ id }) => {
+    const router = useRouter();
     const handleDeleteUser = async () => {
         try {
             await deleteuser(id);
             // console.log("User deleted:", id);
             toast.success("User Delete Successfully")
+            router.refresh();
         } catch (error) {
             toast.error("Delete Failed")
             // console.error("Delete failed:", error);
