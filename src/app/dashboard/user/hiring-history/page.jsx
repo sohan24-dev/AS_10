@@ -21,7 +21,7 @@ const UserHiring = async () => {
             <div className="flex flex-col items-center justify-center min-h-[60vh] text-center">
                 <h2 className="text-2xl font-bold">No Hiring History Found</h2>
                 <p className="mt-2 text-gray-500">
-                    You haven't hired any lawyers yet.
+                    You have not hired any lawyers yet.
                 </p>
             </div>
         );
