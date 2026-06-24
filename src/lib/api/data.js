@@ -1,7 +1,24 @@
-export const getAllLawyers = async (search = "") => {
-    // console.log(search);
+// export const getAllLawyers = async (search = "") => {
+//     // console.log(search);
+//     const res = await fetch(
+//         `${process.env.NEXT_PUBLIC_SERVER_URL}/alllaywer?search=${search}`,
+//         {
+//             cache: "no-store",
+//         }
+//     );
+
+//     return res.json();
+// };
+
+
+
+export const getAllLawyers = async (
+    search = "",
+    page = 1,
+    limit = 9
+) => {
     const res = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_URL}/alllaywer?search=${search}`,
+        `${process.env.NEXT_PUBLIC_SERVER_URL}/alllaywer?search=${search}&page=${page}&limit=${limit}`,
         {
             cache: "no-store",
         }
@@ -9,6 +26,13 @@ export const getAllLawyers = async (search = "") => {
 
     return res.json();
 };
+
+
+
+
+
+
+
 export const getAllComment = async () => {
     try {
         const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/comment`,

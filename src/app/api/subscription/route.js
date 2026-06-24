@@ -51,9 +51,9 @@ export async function POST(req) {
             metadata: {
                 hireId,
                 lawyerName,
+                fee,
                 userId: user.id,
                 email: user.email,
-                fee: fee.toString(),
                 status: formData.get("status"),
                 specialization: formData.get("specialization"),
                 clientName: formData.get("clientName"),
