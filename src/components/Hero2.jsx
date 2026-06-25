@@ -1,50 +1,89 @@
-"use client";
+import Image from "next/image";
+import Link from "next/link";
+import { getAllLawyers } from "@/lib/api/data";
 
-import React from "react";
-import { motion } from "framer-motion";
-import { Shield, Scale, Award } from "lucide-react";
+const Hero2 = async () => {
+    const alldata = await getAllLawyers();
+    const lawyers = alldata?.lawyers?.slice(0, 3) || [];
 
-
-const heroVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.8 } },
-};
-
-const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-        opacity: 1,
-        transition: { staggerChildren: 0.2 },
-    },
-};
-
-const cardVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } },
-};
-
-export default function Hero2() {
     return (
-        <div className="min-h-screen bg-white text-slate-900 dark:bg-slate-900 dark:text-slate-100 overflow-x-hidden">
-
-            {/* HERO */}
-            <section className="min-h-[80vh] flex items-center justify-center px-4 text-center border-b border-slate-200 dark:border-slate-800">
-                <motion.div variants={heroVariants} initial="hidden" animate="visible" className="space-y-6">
-
-                    <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-amber-400/40 bg-amber-400/10 text-amber-500 text-sm">
-                        <Scale size={16} /> Trusted Legal Excellence
-                    </div>
-
-                    <h1 className="font-serif font-bold leading-tight text-3xl sm:text-5xl md:text-6xl lg:text-7xl">
-                        Defending Your Rights, <br />
-                        <span className="text-amber-500">Securing Your Future.</span>
-                    </h1>
-
-                    <p className="text-sm sm:text-base md:text-lg text-slate-500 dark:text-slate-400 max-w-2xl mx-auto">
-                        A boutique full-service law firm dedicated to providing world-class legal counsel with integrity and precision.
+        <section className="py-16 bg-slate-50 dark:bg-slate-950">
+            <div className="max-w-7xl mx-auto px-4">
+                <div className="mb-10 text-center">
+                    <p className="text-blue-600 font-semibold uppercase tracking-wider">
+                        ⚖ Featured Lawyers
                     </p>
-                </motion.div>
-            </section>
-        </div>
+                    <h2 className="text-4xl font-bold mt-2 text-slate-900 dark:text-white">
+                        Top Legal Experts
+                    </h2>
+                    <p className="mt-3 text-slate-600 dark:text-slate-300">
+                        Connect with experienced and verified lawyers.
+                    </p>
+                </div>
+
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {lawyers.map((lawyer) => (
+                        <article
+                            key={lawyer._id}
+                            className="group overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl dark:border-slate-700 dark:bg-slate-900"
+                        >
+                            <div className="relative h-64 w-full overflow-hidden">
+                                <Image
+                                    src={lawyer.image}
+                                    alt={lawyer.name}
+                                    fill
+                                    className="object-cover transition duration-500 group-hover:scale-110"
+                                />
+
+                                <div className="absolute top-4 left-4 rounded-full bg-white/90 px-3 py-1 text-xs font-semibold text-slate-800 shadow">
+                                    {lawyer.specialization}
+                                </div>
+                            </div>
+
+                            <div className="p-5 space-y-4">
+                                <div>
+                                    <h3 className="text-xl font-bold text-slate-900 dark:text-white group-hover:text-blue-600">
+                                        {lawyer.name}
+                                    </h3>
+
+                                    <p className="mt-2 text-sm text-slate-600 dark:text-slate-300 line-clamp-3">
+                                        {lawyer.bio}
+                                    </p>
+                                </div>
+
+                                <div className="flex items-center justify-between border-t border-slate-200 dark:border-slate-700 pt-4">
+                                    <div>
+                                        <p className="text-xs uppercase text-slate-500">
+                                            Consultation Fee
+                                        </p>
+                                        <p className="text-xl font-bold text-slate-900 dark:text-white">
+                                            ${lawyer.fee}
+                                        </p>
+                                    </div>
+
+                                    <Link
+                                        href={`/browselawyers/${lawyer._id}`}
+                                        className="rounded-xl bg-gradient-to-r from-blue-600 to-indigo-600 px-4 py-2 text-sm font-semibold text-white shadow-md hover:opacity-90"
+                                    >
+                                        View Profile →
+                                    </Link>
+                                </div>
+                            </div>
+                        </article>
+                    ))}
+                </div>
+
+                <div className="mt-10 text-center">
+                    <Link
+                        href="/browselawyers"
+                        className="inline-flex items-center rounded-xl border border-slate-300 px-6 py-3 font-semibold hover:bg-slate-100 dark:border-slate-700 dark:hover:bg-slate-800"
+                    >
+                        View All Lawyers →
+                    </Link>
+                </div>
+            </div>
+        </section>
     );
-}
+};
+
+export default Hero2;

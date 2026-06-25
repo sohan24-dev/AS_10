@@ -6,7 +6,7 @@ import Link from "next/link";
 const Lawyers = async ({ searchParams }) => {
     // 1. Fetch data from your API helper
     const rawData = await getAllLawyers();
-    console.log(rawData);
+    // console.log(rawData);
 
     // 2. Comprehensive check for backend array wrappers
     let lawyerdata = [];
