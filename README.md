@@ -6,7 +6,7 @@ A full-stack MERN-based marketplace platform that connects clients, lawyers, and
 
 ## 🚀 Live Demo
 > Add your live link here  
-`https://your-live-link.com`
+`https://lawyer-10.vercel.app`
 
 ---
 
@@ -138,9 +138,3 @@ LegalEase aims to modernize legal service accessibility by removing traditional 
 ---
 
 ## 📦 Installation
-
-```bash
-git clone https://github.com/your-repo/legalease.git
-cd legalease
-npm install
-npm run dev
