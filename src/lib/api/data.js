@@ -7,6 +7,9 @@
 //         }
 //     );
 
+import { headers } from "next/headers";
+import { auth } from "../auth";
+
 //     return res.json();
 // };
 
@@ -68,23 +71,28 @@ export const getAllComment = async () => {
 
 export const getAllUser = async () => {
     try {
+        const { token } = await auth.api.getToken({
+            headers: await headers(),
+        });
+
         const res = await fetch(
             `${process.env.NEXT_PUBLIC_SERVER_URL}/user`,
             {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
                 cache: "no-store",
             }
         );
-        // console.log(res);
 
         if (!res.ok) {
-            throw new Error("Failed to fetch data");
+            throw new Error("Failed to fetch users");
         }
 
-        const data = await res.json();
-        // console.log(data);
-        return data
+        return await res.json();
     } catch (error) {
-        // console.error(error);
+        console.error("Error fetching users:", error);
+        return null;
     }
 };
 export const getAllhireList = async () => {

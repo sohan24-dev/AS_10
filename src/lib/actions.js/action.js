@@ -101,7 +101,7 @@ export const getLawyerById = async (id) => {
         // console.log("Token:", token);
 
         const res = await fetch(
-            `${process.env.NEXT_PUBLIC_SERVER_URL}/alllaywer/${id}`,
+            `https://as-10-server.onrender.com/alllaywer/${id}`,
             {
                 headers: {
                     Authorization: `Bearer ${token}`,
@@ -110,7 +110,7 @@ export const getLawyerById = async (id) => {
             }
         );
 
-        console.log("Status:", res.status);
+        // console.log("Status:", res.status);
 
         return await res.json();
     } catch (error) {

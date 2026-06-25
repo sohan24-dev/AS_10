@@ -51,6 +51,7 @@ function StatCard({ value, label }) {
 export default async function LawyerDetailsPage({ params }) {
     const { id } = await params;
     const lawyer = await getLawyerById(id);
+    // console.log(lawyer);
     const session = await auth.api.getSession({
         headers: await headers(),
     });
