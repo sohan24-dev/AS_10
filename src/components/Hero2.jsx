@@ -4,7 +4,7 @@ import { getAllLawyers } from "@/lib/api/data";
 
 const Hero2 = async () => {
     const alldata = await getAllLawyers();
-    const lawyers = alldata?.lawyers?.slice(0, 3) || [];
+    const lawyers = alldata?.lawyers?.slice(0, 6) || [];
 
     return (
         <section className="py-16 bg-slate-50 dark:bg-slate-950">
