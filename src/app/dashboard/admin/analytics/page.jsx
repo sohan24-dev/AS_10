@@ -1,3 +1,6 @@
+export const dynamic = 'force-dynamic';
+
+
 import AnalyticsChart from "./AnalyticsChart";
 import {
     getAllComment,
