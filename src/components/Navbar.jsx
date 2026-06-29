@@ -68,11 +68,6 @@ export default function Navbar() {
                     })}
                 </div>
 
-                {/* SEARCH */}
-                <div className="hidden lg:block flex-1 max-w-md">
-                    <SearchBar />
-                </div>
-
                 {/* RIGHT */}
                 <div className="flex items-center gap-3">
                     <ThemeSwitch />
@@ -86,7 +81,6 @@ export default function Navbar() {
                     }`}
             >
                 <div className="space-y-4 p-4">
-                    <SearchBar />
 
                     <div className="flex flex-col gap-1">
                         {NAV_LINKS.map((item) => {
